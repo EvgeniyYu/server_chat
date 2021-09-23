@@ -37,8 +37,8 @@ void Session::do_read()
                 {
                         std::string answ = std::string{data_, length};
                         std::cout << "receive " << length << "=" << data_ << "  handle = " << socket_.native_handle() << std::endl;
-				manager.receive_message(GET_MESSAGE, handle, answ);								
-				do_read();
+		        manager.receive_message(GET_MESSAGE, handle, answ);								
+		        do_read();
                 }
                 else
                 {
