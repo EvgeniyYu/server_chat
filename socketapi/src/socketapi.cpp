@@ -4,11 +4,7 @@
 void ServerSocketAPI::start_server(const size_t port)
 {
 	server = new Server(port);
-	auto r_callback = std::bind(&ServerSocketAPI::receive_message, 
-															this, 
-															std::placeholders::_1, 
-															std::placeholders::_2, 
-															std::placeholders::_3);
+	auto r_callback = std::bind(&ServerSocketAPI::receive_message, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 	server->set_receive_callback(r_callback);
 	
 	std::thread th(&Server::run, server);
