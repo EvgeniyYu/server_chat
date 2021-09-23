@@ -8,14 +8,8 @@
 
 using boost::asio::ip::tcp;
 
-//-----------------------------------------------------------------------------------
-
-
-//-----------------------------------------------------------------------------------
-
 Server::Server(const size_t port): _acceptor(io_context, tcp::endpoint(tcp::v4(), port))
 {
-std::cout << "Server" << std::endl; 
 }
 
 
@@ -43,7 +37,7 @@ void Server::set_receive_callback(std::function<void(TypeFunc, unsigned, const s
 
 void Server::do_accept()
 {
-    _acceptor.async_accept(
+        _acceptor.async_accept(
         [this](boost::system::error_code ec, tcp::socket socket)
         {
           if (!ec)
