@@ -43,12 +43,12 @@ void SessionManager::receive_message(TypeFunc type, unsigned handle, const std::
 
 unsigned SessionManager::getRandomHandle()
 {
-    std::mt19937 g;
-    unsigned value;
-    while (1)
-    {
-    	value = g();
-    	if (sessions.find(value) == sessions.end()) break;
+        std::mt19937 g;
+        unsigned value;
+        while (1)
+        {
+    	        value = g();
+    	        if (sessions.find(value) == sessions.end()) break;
 	}
 	return value;
 }
