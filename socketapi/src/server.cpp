@@ -40,18 +40,18 @@ void Server::do_accept()
         _acceptor.async_accept(
         [this](boost::system::error_code ec, tcp::socket socket)
         {
-          if (!ec)
-          {    
-            std::cout << "accept new connection handle = " << socket.native_handle() << std::endl;
-            manager.start_session(std::make_shared<Session>(std::move(socket), manager));
-          }
-          else
-          {
-          	std::cerr << "error code: " << ec.message() << std::endl;
-          }
+                if (!ec)
+                {    
+                    std::cout << "accept new connection handle = " << socket.native_handle() << std::endl;
+                    manager.start_session(std::make_shared<Session>(std::move(socket), manager));
+                }
+                else
+                {
+          	    std::cerr << "error code: " << ec.message() << std::endl;
+                }
 
-          do_accept();
-    });
+                do_accept();
+        });
 }
 
 
