@@ -215,12 +215,9 @@ public:
 
 int main(int, char *[]) 
 {
-    std::locale::global(std::locale(""));
-            
+        std::locale::global(std::locale(""));            
 	ClientChat client("Evgeniy", "qwerty");		
 	std::thread th(client);
 	th.join();
-    
-
     return 0;
 }
