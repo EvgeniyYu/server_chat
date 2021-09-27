@@ -20,10 +20,10 @@
 
 namespace ba = boost::asio;
 
-enum TypeMsg {DEFAULT, 				//by default
+enum TypeMsg {                  DEFAULT, 		//by default
 				GET_AUTH_NUM,		//get authentification number	
-				LOGIN, 				//request (authentification), reply(login is required)  
-				AUTH_OK,			//reply (authentification succeeded)
+				LOGIN, 			//request (authentification), reply(login is required)  
+				AUTH_OK,		//reply (authentification succeeded)
 				AUTH_FAILED, 		//reply (authentification failed)
 				GET_ALL_USERS, 		//get all users
 				GET_MESSAGES, 		//get unread messages for the user
@@ -74,12 +74,9 @@ void parse_msg_to_json(const MessageData& msg, std::string& str_result)
 class ClientChat
 {
 	const std::string name;
-	
-	
 	std::string auth_number;
 	const std::string password;
 	std::vector<std::string> users;
-	
 	char data[4096];
 public:
 	ClientChat(const std::string& _name, const std::string& _password): name(_name), password(_password)			
@@ -92,10 +89,9 @@ public:
 		{	
 			ba::io_context io_context;
 			ba::ip::tcp::endpoint ep(
-	        ba::ip::address::from_string("127.0.0.1"), 1234);
-	        ba::ip::tcp::socket sock(io_context);
-	        sock.connect(ep);
-
+	                ba::ip::address::from_string("127.0.0.1"), 1234);
+	                ba::ip::tcp::socket sock(io_context);
+	                sock.connect(ep);
 			size_t len;
 			std::string str_json;
 			
@@ -138,8 +134,9 @@ public:
 			//analyze_answer(std::string{data, len});
 		}
 		catch(const boost::system::system_error& ex) {std::cout << "boost exception! " << ex.what() << std::endl;}
-    	catch(const std::exception& ex) {std::cout << "std::exception! " << ex.what() << std::endl;}
+    	        catch(const std::exception& ex) {std::cout << "std::exception! " << ex.what() << std::endl;}
 	}
+	
 	std::string prepare(TypeMsg type)
 	{
 		MessageData msg;
