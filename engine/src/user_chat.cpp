@@ -23,19 +23,33 @@ void UserChat::remove_user(unsigned session_handle)
 
 void UserChat::deliver_message(unsigned session_handler, MessageData& msg)
 {
+	std::unique_lock<std::mutex> lk(mx);
+	
 	std::string str_json;
 	switch (msg.type)
 	{
 		case GET_ALL_USERS:
 			{
-			std::string str_users = db->get_all_users();
-			send_message(session_handler, str_users);
+				std::vector<std::string> v_users;
+				db->get_all_users(v_users);
+				parse_user_list_to_json(v_users, str_json);
+				send_message(session_handler, str_json);
 			}
 			break;
 		case GET_MESSAGES:
 			{
-			std::string str_messages = db->get_messages(users[session_handler].name);
-			send_message(session_handler, str_messages);
+				std::vector<std::string> messages;
+				db->get_messages(users[session_handler].name, messages);
+			
+				if (!messages.size()) 
+				{
+					parse_msg_to_json(msg, str_json);
+					send_message(session_handler, str_json);
+					return;
+				}
+				
+				for (const auto& message: messages)
+					send_message(session_handler, message);
 			}
 			break;
 		case SEND_ROOM_MSG:
@@ -43,22 +57,22 @@ void UserChat::deliver_message(unsigned session_handler, MessageData& msg)
 			break;
 		case SEND_USER_MSG:
 			{
-			bool found = false;
-			for (auto it = users.begin(); it != users.end(); ++it)
-			{
-				if (it->second.name == msg.user_name_to)
+				bool found = false;
+				for (auto it = users.begin(); it != users.end(); ++it)
 				{
-					parse_msg_to_json(msg, str_json);	
-					send_message(it->first, str_json);
-					found = true;
-					break;			
+					if (it->second.name == msg.user_name_to)
+					{
+						parse_msg_to_json(msg, str_json);	
+						send_message(it->first, str_json);
+						found = true;
+						break;			
+					}
 				}
-			}
-			if (!found)
-			{
-				//save message to db for user_name_to 
-				db->insert_new_message(msg.user_name_to, str_json);
-			}
+				if (!found)
+				{
+					//save message to db for user_name_to
+					db->insert_new_message(msg.user_name_to, msg.text);
+				}
 			}
 			break;
 		default:
@@ -74,12 +88,11 @@ void UserChat::send_message(unsigned session_handler, const std::string& str_msg
 
 bool UserChat::check_user_authorized(unsigned session_handler, std::string& name, const std::string& auth_number)
 {			
-	//read password for the user_name from DataBase
 	DBUser dbuser;
-	json_string data_json = db->get_user_data(name);					
-	parse_json_to_dbuser(data_json, dbuser);
-	//check hash password for authorization
-	bool result = check_password(users[session_handler].auth_number, dbuser.password, auth_number);
+	std::string db_password; 
+	db->get_user_password(name, db_password);
+
+	bool result = check_password(users[session_handler].auth_number, db_password, auth_number);
 	if (result && users[session_handler].name.empty())
 	{
 		users[session_handler].name = name;
@@ -91,14 +104,16 @@ bool UserChat::check_user_authorized(unsigned session_handler, std::string& name
 
 bool UserChat::check_password(std::string key, std::string password, const std::string& encrypted_password)
 {
+	
 	if (!key.size())
+	{
 		return false;
-
+	}
+	
 	//password encryption
 	for (size_t i = 0; i < password.size(); ++i)
 	{
 		password[i] ^= key[i % key.size()];
 	}
-	//std::cout << "encryption password: " << password << std::endl; 
 	return (password == encrypted_password)? true: false;
 }

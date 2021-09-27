@@ -1,17 +1,17 @@
 #ifndef DEF_H
 #define DEF_H
 
-#include "def.h"
 #include <string>
 
-enum TypeMsg {DEFAULT, 			//by default
-		LOGIN, 			//request (authentification), reply(login is required)  
-		AUTH_OK,		//reply (authentification succeeded)
-		AUTH_FAILED, 		//reply (authentification failed)
-		GET_ALL_USERS, 		//get all users
-		GET_MESSAGES, 		//get unread messages for the user
-		SEND_ROOM_MSG, 		//send message to the room
-		SEND_USER_MSG};		//send message to the user
+enum TypeMsg {DEFAULT, 				//by default
+				GET_AUTH_NUM,		//get authentification number				
+				LOGIN, 				//request (authentification), reply(login is required)  
+				AUTH_OK,			//reply (authentification succeeded)				
+				AUTH_FAILED, 		//reply (authentification failed)
+				GET_ALL_USERS, 		//get all users
+				GET_MESSAGES, 		//get unread messages for the user
+				SEND_ROOM_MSG, 		//send message to the room
+				SEND_USER_MSG};		//send message to the user
 
 struct MessageData
 {

@@ -4,6 +4,7 @@
 #include "def.h"
 #include "db.h"
 #include <string>
+#include <vector>
 
 //message
 #define MSG_TYPE_STR		"Type"
@@ -13,14 +14,14 @@
 #define MSG_AUTH_NUM_STR	"Auth_number"
 #define MSG_TEXT_STR		"Text"
 
-//convert: json data <=> struct DBUser (for database)
-void parse_json_to_dbuser([[maybe_unused]]const std::string& str_json, [[maybe_unused]]DBUser& user_result);
-void parse_dbuser_to_json([[maybe_unused]]const DBUser& user_field, [[maybe_unused]]std::string& str_json_result);
+#define MSG_USERNAME_STR	"Name"
+#define MSG_USERS_STR		"Users"
+
 
 //convert: json data <=> struct MessageData (for messaging with client)
 void parse_json_to_msg(const std::string& str_json, MessageData& msg);
 void parse_msg_to_json(const MessageData& msg, std::string& str_result);
-
+void parse_user_list_to_json(const std::vector<std::string>& v_users, std::string& str_json);
 
 
 

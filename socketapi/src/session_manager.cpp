@@ -37,18 +37,17 @@ void SessionManager::send_message(unsigned handle, const std::string& msg)
 
 void SessionManager::receive_message(TypeFunc type, unsigned handle, const std::string& msg)
 {
-	std::cout << "SessionManager::receive_message  type = " << type << "  handle: " << handle << "  data: " << msg << std::endl;
 	receive_callback(type, handle, msg);
 }
 
 unsigned SessionManager::getRandomHandle()
 {
-        std::mt19937 g;
-        unsigned value;
-        while (1)
-        {
-    	        value = g();
-    	        if (sessions.find(value) == sessions.end()) break;
+    std::mt19937 g;
+    unsigned value;
+    while (1)
+    {
+    	value = g();
+    	if (sessions.find(value) == sessions.end()) break;
 	}
 	return value;
 }

@@ -38,11 +38,11 @@ public:
 	void execute() override; 
 };
 
-class AuthenticateUser: public IRequest
+class WelcomeMessage: public IRequest
 {
 	std::shared_ptr<UserChat> chat;
 public:
-	AuthenticateUser(unsigned _session_handler, std::shared_ptr<UserChat> _chat);
+	WelcomeMessage(unsigned _session_handler, std::shared_ptr<UserChat> _chat);
 	void execute() override; 
 };
 

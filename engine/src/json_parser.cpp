@@ -5,17 +5,6 @@
 #include <string>
 
 
-void parse_json_to_dbuser([[maybe_unused]]const std::string& str_json, [[maybe_unused]]DBUser& user_result) 
-{
-}
-
-
-
-void parse_dbuser_to_json([[maybe_unused]]const DBUser& user_field, [[maybe_unused]]std::string& str_json_result) 
-{
-}
-
-
 
 void parse_json_to_msg(const std::string& str_json, MessageData& msg) 
 {
@@ -45,4 +34,20 @@ void parse_msg_to_json(const MessageData& msg, std::string& str_result)
 	str_result = buf.str();
 }
 
+void parse_user_list_to_json(const std::vector<std::string>& v_users, std::string& str_json)
+{
+	boost::property_tree::ptree pt;
+	boost::property_tree::ptree children;
+	for (const auto& name: v_users)
+	{
+		boost::property_tree::ptree child;		
+		child.put(MSG_USERNAME_STR, name);		
+		children.push_back(std::make_pair("", child));
+	}	
+	pt.add_child(MSG_USERS_STR, children);
+		
+	std::ostringstream buf; 
+	write_json (buf, pt, false);
+	str_json = buf.str();
 
+}

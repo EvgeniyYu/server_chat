@@ -27,11 +27,11 @@ void ServerEngine::start_server_socket()
 
 void ServerEngine::get_request(TypeFunc type, unsigned handler_session, const std::string& data)
 {
-	std::cout << "ServerEngine: type = " << type << "  handler = " << handler_session << "  data = " << data << std::endl; 
 
 	boost::asio::post(pool, [this, type, handler_session, data]()
 	{
 		RequestExecutor req(chat);
 		req.set_request(type, handler_session, data);		
+		req.execute();
 	});
 }
