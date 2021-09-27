@@ -3,10 +3,10 @@
 
 #include <string>
 
-enum TypeMsg {DEFAULT, 				//by default
+enum TypeMsg {                  DEFAULT, 		//by default
 				GET_AUTH_NUM,		//get authentification number				
-				LOGIN, 				//request (authentification), reply(login is required)  
-				AUTH_OK,			//reply (authentification succeeded)				
+				LOGIN, 			//request (authentification), reply(login is required)  
+				AUTH_OK,		//reply (authentification succeeded)				
 				AUTH_FAILED, 		//reply (authentification failed)
 				GET_ALL_USERS, 		//get all users
 				GET_MESSAGES, 		//get unread messages for the user
