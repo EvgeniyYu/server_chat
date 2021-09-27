@@ -46,12 +46,12 @@ bool MongoDB::insert_new_user(DBUser& user)
 	bool result = mongoc_collection_insert_one (collection_users, doc, NULL, NULL, &error);
 	 
 	bson_destroy (doc);
-    mongoc_collection_destroy (collection_users);
+        mongoc_collection_destroy (collection_users);
 	mongoc_client_destroy (client);
 
 	if (!result)
 	{
-    	std::cout << "ERROR: " << error.message << std::endl;
+    	        std::cout << "ERROR: " << error.message << std::endl;
 	}
 	return result;
 }
@@ -294,11 +294,11 @@ bool MongoDB::init_collection(const std::string& collection_name)
       		bson_iter_find (&col_iter, "name") &&
       		BSON_ITER_HOLDS_UTF8 (&col_iter) &&
       		(cur_name = bson_iter_utf8 (&col_iter, NULL))) 
-      	{
-     		if (!strcmp (cur_name, collection_name.c_str())) 
-     		{
-        		result =  true;            
-     		}
+      	        {
+     		        if (!strcmp (cur_name, collection_name.c_str())) 
+     		        {
+        		        result =  true;            
+     		        }
   		}
 	}
 	
