@@ -8,58 +8,57 @@
 class IRequest
 {
 protected:
-	unsigned session_handler;
+    unsigned mSession_handler;
 public:
-	virtual void execute() = 0;
+    virtual void execute() = 0;
 };
+
+using IRequestUptr = std::unique_ptr<IRequest>;
 
 class AddUser: public IRequest
 {
-	std::shared_ptr<UserChat> chat;
+    ChatSptr mChat;
 public:
-	AddUser(unsigned _session_handler, std::shared_ptr<UserChat> _chat);
-	void execute() override ;
+    AddUser(unsigned _session_handler, ChatSptr _chat);
+    void execute() override ;
 };
 
 class RemoveUser: public IRequest
 {
-	std::shared_ptr<UserChat> chat;
+    ChatSptr mChat;
 public:
-	RemoveUser(unsigned _session_handler, std::shared_ptr<UserChat> _chat);
-	void execute() override; 
+    RemoveUser(unsigned _session_handler, ChatSptr _chat);
+    void execute() override;
 };
 
 class HandleMessage: public IRequest
 {
-	const std::string str_json;
-	std::shared_ptr<UserChat> chat;
+    const std::string str_json;
+    ChatSptr mChat;
 public:
-	HandleMessage(unsigned _session_handler, const std::string& _str_json, std::shared_ptr<UserChat> _chat);
-	void execute() override; 
+    HandleMessage(unsigned _session_handler, const std::string& _str_json, ChatSptr _chat);
+    void execute() override;
 };
 
 class WelcomeMessage: public IRequest
 {
-	std::shared_ptr<UserChat> chat;
+    ChatSptr mChat;
 public:
-	WelcomeMessage(unsigned _session_handler, std::shared_ptr<UserChat> _chat);
-	void execute() override; 
+    WelcomeMessage(unsigned _session_handler, ChatSptr _chat);
+    void execute() override;
 };
+
 
 class RequestExecutor
 {
-	std::unique_ptr<IRequest> request;
-	std::shared_ptr<UserChat> chat;
-	unsigned session_handler;
+    IRequestUptr mRequest;
+    ChatSptr mChat;
+    unsigned mSession_handler;
 public:
-	RequestExecutor(std::shared_ptr<UserChat> _chat);
-	void set_request(TypeFunc type, unsigned _session_handler, const std::string& data);
-	void execute();
+    RequestExecutor(ChatSptr _chat);
+    void set_request(TypeFunc type, unsigned _session_handler, const std::string& data);
+    void execute();
 };
-
-
-
-
 
 
 #endif

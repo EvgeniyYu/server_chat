@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.8)
 
 
-set(SRC ./engine/src/server_engine.cpp ./engine/src/user_chat.cpp ./engine/src/json_parser.cpp ./engine/src/request_executor.cpp)
+set(SRC ./engine/src/server_engine.cpp ./engine/src/user_chat.cpp ./engine/src/json_parser.cpp ./engine/src/request_executor.cpp ./engine/src/cmd_line_processor.cpp)
 set(PATH_SOCK socketapi/include)
 set(PATH_DB dbapi/include)
 
@@ -27,7 +27,7 @@ else()
 endif()
 
 
-find_package(Boost COMPONENTS unit_test_framework REQUIRED)
+find_package(Boost COMPONENTS program_options unit_test_framework REQUIRED)
 
 add_library(${NAME_SOCK_LIBRARY} STATIC ./socketapi/src/server.cpp ./socketapi/src/session.cpp ./socketapi/src/session_manager.cpp ./socketapi/src/socketapi.cpp)
 

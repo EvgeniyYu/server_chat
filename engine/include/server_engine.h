@@ -4,6 +4,7 @@
 #include "user_chat.h"
 #include "json_parser.h"
 #include "socketapi.h"
+#include "def.h"
 #include <memory>
 #include <boost/asio/thread_pool.hpp>
 #include <boost/asio/post.hpp>
@@ -12,16 +13,16 @@
 
 class ServerEngine
 {
-	const size_t port;
-	std::shared_ptr<IServerAPI> server_socket;
-	boost::asio::thread_pool pool;
-	std::shared_ptr<UserChat> chat;
+    Options mOptions;
+    IServerSptr mServer_socket;
+    boost::asio::thread_pool mPool;
+    ChatSptr mChat;
 public:
-	ServerEngine(const size_t _port);
-	~ServerEngine();	
+    ServerEngine(const Options& _options);
+    ~ServerEngine();
 private:
-	void start_server_socket();
-	void get_request(TypeFunc type, unsigned handler_session, const std::string& data);
+    void start_server_socket();
+    void get_request(TypeFunc type, unsigned handler_session, const std::string& data);
 };
 
 

@@ -12,24 +12,24 @@ class SessionManager;
 
 class Session: public std::enable_shared_from_this<Session>
 {
-	tcp::socket socket_;
-	SessionManager& manager;
-	unsigned handle;
-	enum { max_length = 4096 };
-	char data_[max_length];
+    tcp::socket mSocket;
+    SessionManager& mManager;
+    unsigned mHandle;
+    enum { mMax_length = 4096 };
+    char mData[mMax_length];
 public:
-	Session(tcp::socket socket, SessionManager& _manager);
-	~Session();
-	void start();
-	void stop() {}
-	unsigned get_handle() {return handle;}
-	void add_msg_to_send(const std::string& msg);
+    Session(tcp::socket socket, SessionManager& _manager);
+    ~Session();
+    void start();
+    void stop() {}
+    unsigned get_handle() {return mHandle;}
+    void add_msg_to_send(const std::string& msg);
 private:
-	void do_read();
-	void do_write(const std::string& str);
+    void do_read();
+    void do_write(const std::string& str);
 };
 
-
+using SessionSptr = std::shared_ptr<Session>;
 
 
 
